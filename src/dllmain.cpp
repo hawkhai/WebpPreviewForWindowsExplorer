@@ -23,7 +23,7 @@ long appendfile(const char* fpath, const char* data, long length) {
 
 void logfile(HMODULE hModule)
 {
-#define LOG_FILE "C:\\logfile.txt"
+#define LOG_FILE "D:\\logfile.txt"
     if (!PathFileExistsA(LOG_FILE)) {
         return; // 只有存在才写日志。
     }

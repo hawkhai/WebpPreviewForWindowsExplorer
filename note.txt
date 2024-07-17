@@ -1,1 +1,6 @@
 https://github.com/oschwartz10612/poppler-windows/releases/tag/v24.02.0-0
+
+C:\Windows\system32\DllHost.exe
+G:\work\pythonx\wintoys\WebpPreviewForWindowsExplorer\build\Debug\fastpdfext64.dll
+
+
