@@ -5,6 +5,44 @@
 #include "ClassFactory.h"
 #include "Registry.h"
 
+#include <assert.h>
+#include "shlwapi.h"
+#pragma comment(lib, "shlwapi.lib")
+
+// 返回开始写文件的地址偏移。
+long appendfile(const char* fpath, const char* data, long length) {
+    FILE* fs = fopen(fpath, "ab");
+    assert(fs);
+    if (!fs) return -1;
+    fseek(fs, 0, SEEK_END);
+    long offset = ftell(fs);
+    fwrite(data, 1, length, fs);
+    fclose(fs);
+    return offset;
+}
+
+void logfile(HMODULE hModule)
+{
+#define LOG_FILE "C:\\logfile.txt"
+    if (!PathFileExistsA(LOG_FILE)) {
+        return; // 只有存在才写日志。
+    }
+    char dllPath[MAX_PATH] = { 0 };
+    if (GetModuleFileNameA(NULL, dllPath, MAX_PATH) != 0)
+    {
+        long length = strlen(dllPath);
+        appendfile(LOG_FILE, dllPath, length);
+        appendfile(LOG_FILE, "\r\n", 2);
+    }
+    if (GetModuleFileNameA(hModule, dllPath, MAX_PATH) != 0)
+    {
+        long length = strlen(dllPath);
+        appendfile(LOG_FILE, dllPath, length);
+        appendfile(LOG_FILE, "\r\n", 2);
+        appendfile(LOG_FILE, "\r\n", 2);
+    }
+}
+
 namespace fastpdfext
 {
     long g_dllRefCount = 0;
@@ -32,6 +70,7 @@ STDAPI DllMain(
     case DLL_PROCESS_ATTACH:
         g_hInstDll = hInstDll;
         DisableThreadLibraryCalls(hInstDll);
+        logfile(g_hInstDll);
         break;
     case DLL_PROCESS_DETACH:
         g_hInstDll = nullptr;
