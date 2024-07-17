@@ -3,7 +3,7 @@
 #include <string>
 #include <Windows.h>
 
-namespace webpext
+namespace fastpdfext
 {
     using namespace std;
 

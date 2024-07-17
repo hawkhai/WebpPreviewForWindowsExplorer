@@ -3,7 +3,7 @@
 #include <Windows.h>
 #include "dllmain.h"
 
-namespace webpext
+namespace fastpdfext
 {
     HRESULT Registry::registerServer(const string& pathToDll)
     {
@@ -35,7 +35,7 @@ namespace webpext
 
     void Registry::registerServerImpl(const string& pathToDll)
     {
-        setRegistryKeyValue("Software\\Classes\\.webp\\ShellEx\\{e357fccd-a995-4576-b01f-234630154e96}",
+        setRegistryKeyValue("Software\\Classes\\.pdf\\ShellEx\\{e357fccd-a995-4576-b01f-234630154e96}",
                             WEBP_SHELL_CLSID);
 
         setRegistryKeyValue("Software\\Classes\\CLSID\\" WEBP_SHELL_CLSID,

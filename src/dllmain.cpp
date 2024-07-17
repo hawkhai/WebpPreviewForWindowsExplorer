@@ -5,7 +5,7 @@
 #include "ClassFactory.h"
 #include "Registry.h"
 
-namespace webpext
+namespace fastpdfext
 {
     long g_dllRefCount = 0;
 
@@ -40,7 +40,7 @@ STDAPI DllMain(
     return TRUE;
 }
 
-using namespace webpext;
+using namespace fastpdfext;
 
 STDAPI DllGetClassObject(REFCLSID rclsid, REFIID riid, void** ppv)
 {

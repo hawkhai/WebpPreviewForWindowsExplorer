@@ -4,7 +4,7 @@
 #include <wingdi.h>
 #include "WebpReader.h"
 
-namespace webpext
+namespace fastpdfext
 {
     using namespace std;
 

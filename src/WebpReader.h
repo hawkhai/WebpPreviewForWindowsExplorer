@@ -2,7 +2,7 @@
 
 #include <ShlObj.h>
 
-namespace webpext
+namespace fastpdfext
 {
     struct WebpReadInfo
     {

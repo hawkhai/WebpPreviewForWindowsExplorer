@@ -2,7 +2,7 @@
 #include <winerror.h>
 #include <webp/decode.h>
 
-namespace webpext
+namespace fastpdfext
 {
     HRESULT WebpReader::ReadWebpHeader(TBYTE* webp_data, LONG webp_data_size, INT* webp_width, INT* webp_height,
                                        BOOLEAN* webp_alpha) const

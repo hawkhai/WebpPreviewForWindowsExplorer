@@ -3,7 +3,7 @@
 #include <inttypes.h>
 #include <thumbcache.h>
 
-namespace webpext
+namespace fastpdfext
 {
     class ThumbnailProvider final : public IThumbnailProvider, IInitializeWithStream
     {

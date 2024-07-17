@@ -5,7 +5,7 @@
 #include "ThumbnailProvider.h"
 #include "dllmain.h"
 
-namespace webpext
+namespace fastpdfext
 {
     ClassFactory::ClassFactory(): ref_count_{1}
     {

@@ -2,7 +2,7 @@
 
 #include <Unknwnbase.h>
 
-namespace webpext
+namespace fastpdfext
 {
     class ClassFactory final : public IClassFactory
     {
