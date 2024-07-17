@@ -17,7 +17,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "ZERO_CHECK", "ZERO_CHECK.vc
 	ProjectSection(ProjectDependencies) = postProject
 	EndProjectSection
 EndProject
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "webpext64", "webpext64.vcxproj", "{9EEB30E8-9098-3AF5-A036-ADF4BC4B8430}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "fastpdfext64", "fastpdfext64.vcxproj", "{9EEB30E8-9098-3AF5-A036-ADF4BC4B8430}"
 	ProjectSection(ProjectDependencies) = postProject
 		{3494A8FC-E150-3A9A-AF87-C1651E7CD957} = {3494A8FC-E150-3A9A-AF87-C1651E7CD957}
 	EndProjectSection
