@@ -103,6 +103,22 @@ namespace fastpdfext
         hr = reader.ReadAsBitmap(&ri);
         if (SUCCEEDED(hr))
         {
+            // 在这里添加红色标记
+            int markWidth = 10; // 红色标记的宽度
+            int markHeight = 10; // 红色标记的高度
+
+            for (int y = 0; y < markHeight; ++y)
+            {
+                for (int x = 0; x < markWidth; ++x)
+                {
+                    int pixelIndex = (y * scaled_width + x) * 4; // 每个像素4个字节（RGBA）
+                    bytes[pixelIndex] = 0;     // 蓝色通道
+                    bytes[pixelIndex + 1] = 0; // 绿色通道
+                    bytes[pixelIndex + 2] = 255; // 红色通道
+                    bytes[pixelIndex + 3] = 255; // Alpha通道
+                }
+            }
+
             *phbmp = bmp;
         }
 
