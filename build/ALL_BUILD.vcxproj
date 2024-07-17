@@ -173,9 +173,9 @@ if %errorlevel% neq 0 goto :VCEnd</Command>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
-    <ProjectReference Include="webpext64.vcxproj">
+    <ProjectReference Include="fastpdfext64.vcxproj">
       <Project>{9EEB30E8-9098-3AF5-A036-ADF4BC4B8430}</Project>
-      <Name>webpext64</Name>
+      <Name>fastpdfext64</Name>
       <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </ProjectReference>
