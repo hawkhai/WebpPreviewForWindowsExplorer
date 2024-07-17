@@ -53,57 +53,57 @@ namespace fastpdfext
     {
         STATSTG stat;
         HRESULT hr = stream_->Stat(&stat, STATFLAG::STATFLAG_NONAME);
+        if (!SUCCEEDED(hr))
+            return hr;
+
+        const unique_ptr<uint8_t[]> data = make_unique<uint8_t[]>(stat.cbSize.QuadPart);
+        ULONG bytes_read;
+        hr = stream_->Read(data.get(), static_cast<ULONG>(stat.cbSize.QuadPart), &bytes_read);
+        if (!SUCCEEDED(hr))
+            return hr;
+
+        const WebpReader reader;
+        INT webp_width, webp_height;
+        BOOLEAN webp_alpha;
+        hr = reader.ReadWebpHeader(data.get(), bytes_read, &webp_width, &webp_height, &webp_alpha);
+
+        INT scaled_width, scaled_height;
+        CalcScaledBmpSize(webp_width, webp_height, cx, &scaled_width, &scaled_height);
+
+        if (!SUCCEEDED(hr))
+            return hr;
+
+        BITMAPINFO bmi;
+        bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
+        bmi.bmiHeader.biHeight = -scaled_height;
+        bmi.bmiHeader.biWidth = scaled_width;
+        bmi.bmiHeader.biPlanes = 1;
+        bmi.bmiHeader.biBitCount = 32;
+        bmi.bmiHeader.biCompression = BI_RGB;
+        *pdwAlpha = webp_alpha ? WTSAT_ARGB : WTSAT_RGB;
+
+        TBYTE* bytes;
+        HBITMAP bmp = CreateDIBSection(nullptr, &bmi, DIB_RGB_COLORS,
+            reinterpret_cast<void**>(&bytes),
+            nullptr, 0);
+
+        hr = bmp ? S_OK : E_OUTOFMEMORY;
+        if (!SUCCEEDED(hr))
+            return hr;
+
+        WebpReadInfo ri
+        {
+            data.get(),
+            bytes_read,
+            scaled_width,
+            scaled_height,
+            bytes
+        };
+
+        hr = reader.ReadAsBitmap(&ri);
         if (SUCCEEDED(hr))
         {
-            const unique_ptr<uint8_t[]> data = make_unique<uint8_t[]>(stat.cbSize.QuadPart);
-            ULONG bytes_read;
-            hr = stream_->Read(data.get(), static_cast<ULONG>(stat.cbSize.QuadPart), &bytes_read);
-            if (SUCCEEDED(hr))
-            {
-                const WebpReader reader;
-                INT webp_width, webp_height;
-                BOOLEAN webp_alpha;
-                hr = reader.ReadWebpHeader(data.get(), bytes_read, &webp_width, &webp_height, &webp_alpha);
-
-                INT scaled_width, scaled_height;
-                CalcScaledBmpSize(webp_width, webp_height, cx, &scaled_width, &scaled_height);
-
-                if (SUCCEEDED(hr))
-                {
-                    BITMAPINFO bmi;
-                    bmi.bmiHeader.biSize = sizeof(bmi.bmiHeader);
-                    bmi.bmiHeader.biHeight = -scaled_height;
-                    bmi.bmiHeader.biWidth = scaled_width;
-                    bmi.bmiHeader.biPlanes = 1;
-                    bmi.bmiHeader.biBitCount = 32;
-                    bmi.bmiHeader.biCompression = BI_RGB;
-                    *pdwAlpha = webp_alpha ? WTSAT_ARGB : WTSAT_RGB;
-
-                    TBYTE* bytes;
-                    HBITMAP bmp = CreateDIBSection(nullptr, &bmi, DIB_RGB_COLORS,
-                                                         reinterpret_cast<void**>(&bytes),
-                                                         nullptr, 0);
-
-                    hr = bmp ? S_OK : E_OUTOFMEMORY;
-                    if (SUCCEEDED(hr))
-                    {
-                        WebpReadInfo ri
-                        {
-                            data.get(),
-                            bytes_read,
-                            scaled_width,
-                            scaled_height,
-                            bytes
-                        };
-
-                        hr = reader.ReadAsBitmap(&ri);
-                        if (SUCCEEDED(hr))
-                        {
-                            *phbmp = bmp;
-                        }
-                    }
-                }
-            }
+            *phbmp = bmp;
         }
 
         return hr;
