@@ -369,3 +369,8 @@ CMakeSettings.json
 
 # CLion
 .idea/
+/poppler-24.02.0
+/poppler-24.07.0
+/poppler-24.07.0.tar
+/poppler-24.07.0.tar.xz
+/Release-24.02.0-0.zip
